@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+setopt ERR_EXIT
+setopt LOCAL_OPTIONS
+setopt NO_UNSET
+setopt PIPE_FAIL
+
+function main()
+{
+  exec sudo rmmod dmx_usb
+}
+
+main $@

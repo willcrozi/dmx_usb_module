@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+setopt ERR_EXIT
+setopt LOCAL_OPTIONS
+setopt NO_UNSET
+setopt PIPE_FAIL
+
+function main()
+{
+  local root=${${(%):-%x}:A:h:h}
+
+  local gdb_opts=(
+    --eval-command='set confirm off'
+    --eval-command="add-symbol-file dmx_usb.o $(cat /sys/module/dmx_usb/sections/.init.text)"
+    --eval-command='set confirm on'
+  )
+
+  cd $root
+  exec gdb $gdb_opts $@ dmx_usb.ko
+}
+
+main $@

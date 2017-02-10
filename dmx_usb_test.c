@@ -1,5 +1,5 @@
 /*
- * $Id: dmx_usb_test.c 40 2004-09-11 11:16:39Z erwin $ 
+ * $Id: dmx_usb_test.c 40 2004-09-11 11:16:39Z erwin $
  */
 
 #include <stdio.h>
@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <time.h>
 #include <stdlib.h>
 
 int main(int argc, char* argv[])
@@ -22,19 +23,18 @@ int main(int argc, char* argv[])
 		exit(-1);
 	}
 
+	srand(time(NULL));
 	for (i = 0; i < 513;i++) {
-		buffer[i] = i;	
+		buffer[i] = rand() % 256;
 	}
 
 	buffer[512] = 0x55;
 	
-	while(1) {
-		res = write(fd, buffer, 513);
+	res = write(fd, buffer, 513);
 
-		if (res < 0){
-			perror("write");
-			exit(-1);
-		}
+	if (res < 0){
+		perror("write");
+		exit(-1);
 	}
 
 	close(fd);

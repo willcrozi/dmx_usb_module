@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+setopt ERR_EXIT
+setopt LOCAL_OPTIONS
+setopt NO_UNSET
+setopt PIPE_FAIL
+
+function main()
+{
+  local root=${${(%):-%x}:A:h:h}
+
+  cd $root
+  exec sudo ./dmx_usb_test
+}
+
+main $@
